@@ -21,14 +21,14 @@ const Header = () => {
   
   return(
     <div className = "flex justify-between bg-pink-200 shadow-lg m-2 px-2 py-2 sm:bg-yellow-200 lg:bg-green-200">
-      <div className = "logo-container">
+      <div className = "logo-container ">
         <img src = {LOGO_URL}
-        className = "logo w-40"/>
+        className = "logo w-40 rounded-full mx-6"/>
       </div>
       <div className = "nav-items flex items-center">
         <ul className = "flex p-4 m-4">
           <li className = "px-4">
-            Online Status: {onlineStatus? "true": "false"};
+            Online Status: {onlineStatus? "✅": "❌"}
           </li>
           <li className = "px-4">
             <Link to = "/">Home</Link>
@@ -46,14 +46,16 @@ const Header = () => {
           <li className = "px-4 font-bold">
             <Link to = "/Cart">Cart-({cartItems.length} items)</Link>
           </li>
-          <button className = "login-button"
-          onClick = {() => {
-            logButtonReact === "Login"
-             ? setLogButtonReact("Logout")
-             :setLogButtonReact("Login");
-          }}>
-            {logButtonReact}
-          </button>
+          <button 
+                        className="px-6 py-1 ml-3 bg-orange-500 text-white font-bold rounded-lg hover:bg-orange-600 transition-colors duration-200"
+                        onClick={() => {
+                            logButtonReact === "Login"
+                                ? setLogButtonReact("Logout")
+                                : setLogButtonReact("Login");
+                        }}
+                    >
+                        {logButtonReact}
+                    </button>
          <li className = "px-4 font-bold">{loggedUser}</li>
         </ul>
       </div>

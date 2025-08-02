@@ -3,6 +3,7 @@ import {useState} from "react";
 import { RESTAURANTMENU_API, MENU_LAST } from "../utils/constants";
 import { useParams } from "react-router";
 import MenuItem from './MenuItem';
+import RestaurantMenuShimmer from "../utils/restaurantMenuShimmer";
 // import { useDispatch } from "react-redux";
 // import { addItem } from "../utils/cartSlice";
 
@@ -68,7 +69,7 @@ const RestaurantMenu = () => {
         json?.data?.cards?.find((item) =>
             item?.card?.card["@type"]?.includes("food.v2.Restaurant"))
               ?.card?.card?.info);
-    console.log(resInfo);
+    //console.log(resInfo);
 
     setResMenu(organizedMenuData);
 
@@ -78,7 +79,7 @@ const RestaurantMenu = () => {
 }
 const[showIndex, setShowIndex] = useState(1);
 //console.log(resMenu);
-if(resInfo === null) return <div>Loading...</div>;
+if(resInfo === null) return <RestaurantMenuShimmer/>;
 
 const{name, avgRating, cuisines,  costForTwoMessage} = resInfo;
 
@@ -147,7 +148,7 @@ const NestedItemCategory = (props) => {
 
     const{title, categories}= props?.data;
 
-    console.log(categories)
+    //console.log(categories)
     return (
     
         <div className = "w-6/12 bg-white shadow-lg m-auto   py-5 my-5 cursor-pointer" >
@@ -159,7 +160,7 @@ const NestedItemCategory = (props) => {
                 <h3 className = "font-medium" >
                     {subCategory?.title} ({subCategory?.itemCards?.length})
                 </h3>
-                <span className = "px-5">🔽</span>
+                <span className = "px-5"></span>
                 </div>
                 <ul>
                     { showItems &&

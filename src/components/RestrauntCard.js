@@ -2,22 +2,36 @@ import { useContext } from "react";
 import { RES_URL } from "../utils/constants";
 import UserContext from "../utils/UserContext";
 
-
-
 const RestrauntCard = (props) => {
-  const {resData} = props;
-  const{cloudinaryImageId, name, cuisines, avgRating} = resData.info ;
-  const {loggedUser} = useContext(UserContext);
+    const {resData} = props;
+    const{cloudinaryImageId, name, cuisines, avgRating, areaName} = resData.info ;
+    const {loggedUser} = useContext(UserContext);
+    console.log(resData);
 
-  return(
-    <div className = "m-4 p-4 w-67 rounded-lg bg-gray-100 hover:bg-gray-300">
-      <img src = { RES_URL + cloudinaryImageId} className = "m-auto w-full"/>
-      <h3 className="font-bold pt-2 text-lg">{name}</h3>
-      <h4>{cuisines.join(", ")}</h4>
-      <h4>{resData.info.sla.deliveryTime} minutes</h4>
-      <h4>{avgRating} Stars</h4>
-      <h4>user: {loggedUser}</h4>
-    </div>
-  )
-}
+    return(
+        <div className="p-4 m-4 w-64 h-80 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-2 cursor-pointer bg-white">
+            <div className="h-40 overflow-hidden rounded-lg mb-2">
+                <img 
+                    src={RES_URL + cloudinaryImageId} 
+                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+                    alt={name}
+                />
+            </div>
+            <h3 className="font-bold pt-2 text-lg text-gray-900 overflow-hidden whitespace-nowrap text-ellipsis">{name}</h3>
+            <div className="flex justify-between items-center mt-2 text-sm text-gray-800 font-semibold">
+                <div className="flex items-center">
+                    <span className="text-yellow-500 mr-1">&#9733;</span>
+                    <span>{avgRating}</span>
+                </div>
+                <div>{resData.info.sla.deliveryTime} mins</div>
+                
+            </div>
+            <p className="text-sm text-gray-600 overflow-hidden whitespace-nowrap text-ellipsis">{cuisines.join(", ")}</p>
+            
+            <div className = " text-sm text-gray-600 text-ellipsis">{resData.info.areaName}</div>
+            
+        </div>
+    );
+};
+
 export default RestrauntCard;
