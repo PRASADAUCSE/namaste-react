@@ -72,10 +72,6 @@ const RestaurantMenu = () => {
     //console.log(resInfo);
 
     setResMenu(organizedMenuData);
-
-    
-    
-    
 }
 const[showIndex, setShowIndex] = useState(1);
 //console.log(resMenu);

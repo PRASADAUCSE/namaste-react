@@ -7,25 +7,20 @@ import useOnlineStatus from "../utils/useOnlineStatus";
 import Shimmer from "../utils/Shimmer";
 
 const Body = () => {
-    // State to hold the original, complete list of restaurants
-    const [allRestraunts, setAllRestraunts] = useState([]);
-    // State to hold the list of restaurants to be displayed (filtered)
-    const [filteredRestraunts, setFilteredRestraunts] = useState([]);
     
+    const [allRestraunts, setAllRestraunts] = useState([]);
+    const [filteredRestraunts, setFilteredRestraunts] = useState([]);
     const [searhText, setSearchText] = useState("");
-    const [isTopRated, setIsTopRated] = useState(false); // State for top-rated filter
-    const [isFastDelivery, setIsFastDelivery] = useState(false); // State for fast delivery filter
+    const [isTopRated, setIsTopRated] = useState(false); 
+    const [isFastDelivery, setIsFastDelivery] = useState(false);
 
-    // Moved fetchData outside useEffect for reusability
     const fetchData = async () => {
         try { 
-            const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9628669&lng=77.57750899999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+            const data = await fetch("/api/restaurants/list/v5?lat=12.9628669&lng=77.57750899999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
         const json = await data.json();
             const fetchedRestaurants = json?.data?.cards?.find((item) => 
                 item?.card?.card?.id?.includes("restaurant_grid")
             )?.card?.card?.gridElements?.infoWithStyle?.restaurants;
-
-            // Set both the original and filtered lists initially
             setAllRestraunts(fetchedRestaurants);
             setFilteredRestraunts(fetchedRestaurants);
         } catch(err){
@@ -37,18 +32,14 @@ const Body = () => {
         fetchData();
     }, []);
 
-    // Function to apply all active filters
     const applyFilters = (searchText, topRated, fastDelivery) => {
         let tempFilteredList = allRestraunts;
 
-        // Apply search filter
         if (searchText) {
             tempFilteredList = tempFilteredList.filter((res) =>
                 res.info.name.toLowerCase().includes(searchText.toLowerCase())
             );
         }
-
-        // Apply top-rated filter
         if (topRated) {
             tempFilteredList = tempFilteredList.filter((res) => res.info.avgRating > 4.5);
         }
@@ -57,19 +48,16 @@ const Body = () => {
         setFilteredRestraunts(tempFilteredList);
     };
 
-    // Handler for search button
     const handleSearchClick = () => {
         applyFilters(searhText, isTopRated, isFastDelivery);
     };
 
-    // Handler for top-rated button
     const handleTopRatedFilter = () => {
         const newTopRatedState = !isTopRated;
         setIsTopRated(newTopRatedState);
         applyFilters(searhText, newTopRatedState, isFastDelivery);
     };
 
-    // Handler for fast delivery button
     const handleFastDeliveryFilter = () => {
         const newFastDeliveryState = !isFastDelivery;
         setIsFastDelivery(newFastDeliveryState);
@@ -85,7 +73,7 @@ const Body = () => {
         );
     }
     
-    if(allRestraunts.length === 0 ){ // Show shimmer if the original list is empty
+    if(allRestraunts.length === 0 ){ 
         return <Shimmer/>;
     }
 
@@ -110,10 +98,8 @@ const Body = () => {
     </button>
 </div>
                 <div className="Search m-4 py-8 flex item-center">
-                    {/* Button for Fast Delivery */}
                     
                     
-                    {/* Button for Top-Rated Restaurants */}
                     <button
                         className={`px-4 py-1 m-5  rounded-lg text-white ${isTopRated ? "bg-yellow-500" : "bg-gray-500"}`}
                         onClick={handleTopRatedFilter}
